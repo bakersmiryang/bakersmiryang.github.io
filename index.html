@@ -68,6 +68,11 @@ li{ margin:9px 0; }
       color:#FFF9EE; padding:18px; border-radius:12px; font-size:31px; margin:26px 0 8px; }
 footer{ margin-top:48px; padding-top:20px; border-top:1px solid var(--line);
         font-size:25px; color:var(--soft); text-align:center; line-height:1.7; }
+footer .contact{ margin-top:18px; font-size:27px; color:var(--ink); }
+footer .contact a{ color:var(--accent); text-decoration:none;
+                   border-bottom:1px solid var(--line); word-break:break-all; }
+footer .copy{ margin-top:14px; padding-top:12px; border-top:1px solid var(--line2);
+              font-size:21px; color:#9A8C77; letter-spacing:.02em; }
 </style>
 </head>
 <body>
@@ -129,11 +134,13 @@ footer{ margin-top:48px; padding-top:20px; border-top:1px solid var(--line);
     밀양시민 동아리 시간을 굽는 사람들<br>
     밀양소통협력센터 4층 공유주방<br>
     이 기록은 약속의 기록이며 법적 구속력이 없습니다.
+    <div class="contact">문의 <a href="mailto:bakers.miryang@gmail.com">bakers.miryang@gmail.com</a></div>
+    <div class="copy">© 2026 Claire Jang. All Rights Reserved.</div>
   </footer>
 </div>
 
 <!-- 목록 자료는 data.js 에 있습니다. 관리자는 그 파일만 고치면 됩니다. -->
-<script src="data.js"></script>
+<script src="data.js?v=2"></script>
 <script>
 const list = document.getElementById('list');
 const q = document.getElementById('q');
@@ -155,6 +162,12 @@ function card(r){
 }
 
 function draw(){
+  if (typeof 르방목록 === 'undefined') {
+    list.innerHTML = '<div class="none">목록을 불러오지 못했습니다.<br>'
+      + '키보드의 Ctrl 과 F5 를 함께 눌러 새로고침해 주세요.</div>';
+    hit.textContent = '';
+    return;
+  }
   const k = q.value.trim().toLowerCase();
   const rows = k
     ? 르방목록.filter(r => (r[0] + ' ' + r[1] + ' ' + r[2]).toLowerCase().includes(k))
