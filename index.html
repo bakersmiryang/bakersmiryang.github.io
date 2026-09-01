@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>르방 계보도 · 시간을 굽는 사람들</title>
+<style>
+  :root{
+    --paper:#FBF6EC; --ink:#3D3129; --soft:#8A7B69; --line:#DED2BE; --accent:#6E5A44;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    line-height:1.7; font-size:16px;
+  }
+  .wrap{max-width:640px; margin:0 auto; padding:28px 20px 60px;}
+  header{text-align:center; padding:20px 0 8px;}
+  .kicker{font-size:13px; letter-spacing:.18em; color:var(--soft);}
+  h1{font-size:30px; margin:8px 0 6px; font-weight:700;}
+  .lead{font-size:15px; color:var(--soft); margin:0;}
+  hr{border:0; border-top:1px solid var(--line); margin:26px 0;}
+  h2{font-size:19px; margin:32px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--line);}
+  p{margin:10px 0;}
+  .box{
+    background:#FFFDF7; border:1px solid var(--line); border-radius:12px;
+    padding:16px 18px; margin:14px 0;
+  }
+  .num{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:15px; background:#F1E9DA; padding:2px 7px; border-radius:5px;
+  }
+  table{width:100%; border-collapse:collapse; font-size:14px; margin-top:10px;}
+  th,td{padding:9px 6px; text-align:left; border-bottom:1px solid var(--line);}
+  th{color:var(--soft); font-weight:600; font-size:13px; white-space:nowrap;}
+  td.n{font-family:ui-monospace,Menlo,monospace; white-space:nowrap;}
+  .scroll{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+  ol,ul{padding-left:20px; margin:10px 0;}
+  li{margin:6px 0;}
+  .btn{
+    display:block; text-align:center; text-decoration:none;
+    background:var(--accent); color:#FFF9EE; padding:13px; border-radius:10px;
+    font-weight:600; margin:18px 0 8px;
+  }
+  footer{margin-top:44px; padding-top:18px; border-top:1px solid var(--line);
+    font-size:13px; color:var(--soft); text-align:center;}
+  .note{font-size:13px; color:var(--soft);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">밀양시민 동아리</div>
+    <h1>르방 계보도</h1>
+    <p class="lead">시간을 굽는 사람들</p>
+  </header>
+
+  <hr>
+
+  <!-- ═══ 수정해도 되는 곳 ①: 인사말 ═══ -->
+  <p>
+    입양증에 적힌 번호가 이 표에 있습니다.
+    내 르방이 어디에서 왔고, 누구에게로 갔는지 여기에 기록됩니다.
+  </p>
+  <div class="box">
+    <p style="margin:0 0 8px"><b>내 번호 찾는 법</b><br>
+    입양증 앞면의 번호(예: <span class="num">SG-1-01-007</span>)를 아래 표에서 찾으세요.
+    르방은 <b>동네 + 이름</b>으로 부릅니다. 내이동에 사는 ‘르방군’이면 <b>내이동 르방군</b>입니다.
+    휴대전화에서는 표를 옆으로 밀면 나머지 칸이 보입니다.</p>
+    <p style="margin:0" class="note">
+    아래 표의 칸 이름은 <b>입양증 뒷면과 같습니다.</b>
+    입양증에 적어 두신 것을 그대로 옮기면 됩니다.</p>
+  </div>
+
+  <!-- ═══ 수정해도 되는 곳 ②: 계보 표 ═══
+       회차가 끝날 때마다 <tr>...</tr> 한 줄씩 추가하면 됩니다.
+       모체번호가 비어 있으면 원종(0대)입니다.
+       사람 이름·연락처는 절대 적지 않습니다. 르방 이름과 동네만 적습니다. -->
+  <h2>계보 표</h2>
+  <div class="scroll">
+  <table>
+    <thead>
+      <tr><th>입양번호</th><th>르방 이름</th><th>동네</th><th>대</th>
+          <th>모체</th><th>나눈 날짜</th><th>한마디</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="n">SG-1-00-000</td><td>원종</td><td>—</td><td>0</td>
+        <td>—</td><td>2026-08</td><td>—</td>
+      </tr>
+      <!-- 여기부터 한 줄씩 추가. 아래 예시를 복사해 쓰세요.
+      <tr>
+        <td class="n">SG-1-01-007</td><td>르방군</td><td>내이동</td><td>1</td>
+        <td class="n">SG-1-00-000</td><td>2026-09-02</td><td>잘 지내라</td>
+      </tr>
+      -->
+    </tbody>
+  </table>
+  </div>
+  <p class="note">이 표에는 르방 이름과 동네만 올립니다. 사람의 성명과 연락처는 공개하지 않습니다.</p>
+
+  <!-- ═══ 수정하지 않아도 되는 곳 ═══ -->
+  <h2>르방 돌보는 법</h2>
+  <ol>
+    <li><b>일주일에 한 번</b> 밥을 줍니다. 남은 르방 한 숟갈에 가루와 물을 같은 무게로 섞습니다.</li>
+    <li>실온에 두 시간 정도 두었다가 <b>냉장고</b>에 넣습니다.</li>
+    <li>표면에 갈색 물이 고이면 <b>덜어내고</b> 밥을 주면 됩니다. 상한 것이 아닙니다.</li>
+    <li><b>분홍빛·주황빛이 돌거나 곰팡이가 보이면</b> 버리고 새로 받아 가세요.</li>
+    <li>더 이상 자라지 않는 듯하면 버리지 말고 먼저 문의해 주세요.</li>
+  </ol>
+
+  <h2>나눔을 하셨다면</h2>
+  <p>
+    르방을 누군가에게 나누셨다면 입양증 뒷면의 <b>입양 기록</b>에 세 가지를 적어 두세요.
+    다음 모임 때 그 입양증을 가져오시면 계보 표에 이어 붙입니다.
+  </p>
+  <div class="box">
+    <p style="margin:0"><b>입양증 뒷면 → 계보 표</b></p>
+    <ul style="margin:8px 0 0">
+      <li><b>번호</b> — 내 번호 뒤에 붙습니다 (예: <span class="num">SG-1-01-007-1</span>)</li>
+      <li><b>나눈 날짜</b> — 그대로 옮깁니다</li>
+      <li><b>받은 사람</b> — <b>동네 + 르방 이름</b>으로 적습니다 (예: 삼문동 르방순이).
+          사람 이름은 적지 않습니다.</li>
+      <li><b>한마디</b> — 적으신 그대로 올라갑니다. 비워 두셔도 됩니다.</li>
+    </ul>
+  </div>
+
+  <!-- ═══ 수정해도 되는 곳 ③: 링크 ═══ -->
+  <a class="btn" href="https://instagram.com/time_miryang">인스타그램에서 소식 보기</a>
+
+  <footer>
+    밀양시민 동아리 시간을 굽는 사람들<br>
+    밀양소통협력센터 4층 공유주방<br>
+    <span class="note">이 기록은 약속의 기록이며 법적 구속력이 없습니다.</span>
+  </footer>
+
+</div>
+</body>
+</html>
