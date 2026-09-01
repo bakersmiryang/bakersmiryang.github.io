@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>르방 계보도 · 시간을 굽는 사람들</title>
+<style>
+@font-face{ font-family:"제목체"; src:url("title.woff") format("woff"); font-display:swap; }
+@font-face{ font-family:"본문체"; src:url("body.woff") format("woff"); font-display:swap; }
+
+:root{
+  --paper:#FBF4E6; --card:#FFFDF7; --ink:#2E2620; --soft:#6E6053;
+  --line:#D8CBB0; --line2:#EAE0CC; --accent:#7A6349; --branch:#C3B08D;
+}
+*{box-sizing:border-box}
+body{ margin:0; background:var(--paper); color:var(--ink);
+      font-family:"본문체","Yoon Childfundkorea DaeHan","Malgun Gothic",sans-serif;
+      font-size:30px; line-height:1.7; -webkit-text-size-adjust:100%; }
+.wrap{ max-width:680px; margin:0 auto; padding:26px 20px 70px; }
+
+header{ text-align:center; padding:14px 0 4px; }
+.kicker{ font-size:25px; letter-spacing:.22em; color:var(--soft); }
+h1{ font-family:"제목체","MUNMAK_HAEBANCHE",serif;
+    font-size:52px; line-height:1.2; margin:12px 0 8px; font-weight:400; }
+.lead{ font-size:28px; color:var(--soft); margin:0; }
+.dbl{ margin:22px 0 24px; }
+.dbl div{ height:1px; background:var(--line); }
+.dbl div+div{ margin-top:3px; background:var(--line2); }
+
+h2{ font-family:"제목체","MUNMAK_HAEBANCHE",serif; font-size:30px; font-weight:400;
+    margin:40px 0 12px; padding-bottom:8px; border-bottom:1px solid var(--line); }
+p{ margin:12px 0; }
+.note{ font-size:25px; color:var(--soft); line-height:1.65; }
+
+.box{ background:var(--card); border:1px solid var(--line); border-radius:14px;
+      padding:18px 20px; margin:18px 0; }
+.num{ font-family:ui-monospace,Menlo,monospace; font-size:28px;
+      background:#F0E7D4; padding:3px 9px; border-radius:6px; letter-spacing:.02em; }
+
+/* 검색 */
+.search{ margin:22px 0 8px; }
+.search label{ display:block; font-size:28px; margin-bottom:8px; }
+.search input{ width:100%; font-family:inherit; font-size:36px; padding:16px 18px;
+  border:2px solid var(--accent); border-radius:12px; background:#FFF;
+  color:var(--ink); letter-spacing:.02em; }
+.search input::placeholder{ color:#B5A88F; font-size:28px; }
+.hit{ font-size:25px; color:var(--soft); margin:10px 2px 0; }
+
+/* 카드 */
+.list{ margin-top:14px; }
+.item{ background:var(--card); border:1px solid var(--line); border-radius:14px;
+       padding:16px 18px; margin-bottom:12px; }
+.item .top{ display:flex; align-items:baseline; justify-content:space-between;
+            gap:10px; flex-wrap:wrap; }
+.item .code{ font-family:ui-monospace,Menlo,monospace; font-size:28px;
+             letter-spacing:.02em; }
+.item .gen{ font-size:25px; color:var(--soft); white-space:nowrap; }
+.item .name{ font-size:39px; margin:8px 0 2px; }
+.item .name.empty{ color:#B5A88F; font-size:30px; }
+.item .meta{ font-size:25px; color:var(--soft); margin-top:6px; }
+.item .word{ margin-top:8px; padding-top:8px; border-top:1px dashed var(--line2);
+             font-size:27px; }
+.none{ text-align:center; color:var(--soft); padding:26px 0; font-size:28px; }
+
+ol,ul{ padding-left:24px; margin:12px 0; }
+li{ margin:9px 0; }
+.btn{ display:block; text-align:center; text-decoration:none; background:var(--accent);
+      color:#FFF9EE; padding:18px; border-radius:12px; font-size:31px; margin:26px 0 8px; }
+/* 보기 전환 */
+.views{ display:flex; gap:10px; margin:20px 0 4px; }
+.vbtn{ flex:1; font-family:inherit; font-size:27px; padding:13px 0; cursor:pointer;
+       border:1px solid var(--line); background:var(--card); color:var(--soft);
+       border-radius:12px; -webkit-appearance:none; }
+.vbtn.on{ background:var(--accent); color:#FFF9EE; border-color:var(--accent); }
+.vhint{ margin:10px 2px 0; font-size:23px; color:var(--soft); line-height:1.6; }
+
+/* 계보 나무 */
+.tree{ margin-top:16px; }
+.node{ position:relative; }
+.kids > .node{ padding-left:28px; }
+.kids > .node::before{ content:""; position:absolute; left:0; top:0; bottom:0;
+                       border-left:2px solid var(--branch); }
+.kids > .node:last-child::before{ bottom:auto; height:31px; }
+.kids > .node::after{ content:""; position:absolute; left:0; top:31px; width:21px;
+                      border-top:2px solid var(--branch); }
+.row{ display:flex; align-items:center; gap:12px; padding:9px 0 3px; }
+.dot{ width:17px; height:17px; border-radius:50%; flex:none;
+      background:var(--accent); }
+.dot.empty{ background:var(--paper); border:2px solid var(--branch); }
+.nm{ font-size:30px; line-height:1.35; }
+.nm.empty{ font-size:25px; color:#B5A88F; }
+.gtag{ margin-left:auto; font-size:22px; color:var(--soft); white-space:nowrap; }
+.sub{ margin-left:29px; font-size:22px; color:var(--soft); line-height:1.5; }
+.say{ margin-left:29px; margin-top:4px; padding:8px 12px; font-size:24px;
+      background:var(--card); border:1px solid var(--line2); border-radius:10px;
+      display:inline-block; }
+.root > .row .nm{ font-size:36px; }
+.story{ margin:8px 0 4px 29px; padding:16px 18px; background:var(--card);
+        border:1px solid var(--line); border-left:4px solid var(--accent);
+        border-radius:12px; }
+.story .stt{ font-family:"제목체","MUNMAK_HAEBANCHE",serif; font-size:27px;
+             margin-bottom:8px; }
+.story p{ margin:8px 0 0; font-size:25px; line-height:1.75; color:var(--ink); }
+.item .story{ margin-left:0; }
+.root > .row .dot{ width:22px; height:22px; }
+.tree > .node > .kids{ margin-top:6px; }
+
+footer{ margin-top:48px; padding-top:20px; border-top:1px solid var(--line);
+        font-size:25px; color:var(--soft); text-align:center; line-height:1.7; }
+footer .contact{ margin-top:18px; font-size:27px; color:var(--ink); }
+footer .contact a{ color:var(--accent); text-decoration:none;
+                   border-bottom:1px solid var(--line); word-break:break-all; }
+footer .copy{ margin-top:14px; padding-top:12px; border-top:1px solid var(--line2);
+              font-size:21px; color:#9A8C77; letter-spacing:.02em; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">밀양시민 동아리</div>
+    <h1>르방 계보도</h1>
+    <p class="lead">시간을 굽는 사람들</p>
+  </header>
+  <div class="dbl"><div></div><div></div></div>
+
+  <p>
+    입양증에 적힌 번호가 여기에 있습니다.
+    내 르방이 어디에서 왔고, 누구에게로 갔는지 이곳에 남습니다.
+  </p>
+
+  <div class="search">
+    <label for="q">내 번호 찾기</label>
+    <input id="q" type="search" inputmode="text" autocomplete="off"
+           placeholder="예: 07  또는  르방군">
+    <div class="hit" id="hit"></div>
+  </div>
+
+  <div class="views">
+    <button id="vTree" class="vbtn on" type="button">계보도</button>
+    <button id="vList" class="vbtn" type="button">목록</button>
+  </div>
+  <div class="vhint" id="vhint"></div>
+
+  <div class="tree" id="tree"></div>
+  <div class="list" id="list" hidden></div>
+
+  <p class="note">
+    번호 뒤 두 자리(예: 07)만 쳐도 찾아집니다.
+    이 목록에는 르방 이름과 동네만 올립니다. 사람의 성명과 연락처는 공개하지 않습니다.
+  </p>
+
+  <h2>르방 돌보는 법</h2>
+  <ol>
+    <li><b>일주일에 한 번</b> 밥을 줍니다. 남은 르방 한 숟갈에 가루와 물을 같은 무게로 섞습니다.</li>
+    <li>실온에 두 시간 정도 두었다가 <b>냉장고</b>에 넣습니다.</li>
+    <li>표면에 갈색 물이 고이면 <b>덜어내고</b> 밥을 주면 됩니다. 상한 것이 아닙니다.</li>
+    <li><b>분홍빛·주황빛이 돌거나 곰팡이가 보이면</b> 버리고 새로 받아 가세요.</li>
+    <li>더 이상 자라지 않는 듯하면 버리지 말고 먼저 물어봐 주세요.</li>
+  </ol>
+
+  <h2>나눔을 하셨다면</h2>
+  <p>
+    르방을 누군가에게 나누셨다면 입양증 뒷면의 <b>입양 기록</b>에 적어 두세요.
+    다음 모임 때 그 입양증을 가져오시면 이 목록에 이어 붙입니다.
+  </p>
+  <div class="box">
+    <p style="margin:0 0 10px"><b>입양증 뒷면 → 이 목록</b></p>
+    <ul style="margin:0">
+      <li><b>번호</b> — 내 번호 뒤에 붙습니다 (예: <span class="num">SG-1-0902-07-1</span>)</li>
+      <li><b>나눈 날짜</b> — 그대로 옮깁니다</li>
+      <li><b>받은 르방</b> — <b>동네 + 이름</b>으로 적습니다 (예: 삼문동 르방순이)</li>
+      <li><b>한마디</b> — 비워 두셔도 됩니다</li>
+    </ul>
+  </div>
+
+  <a class="btn" href="https://instagram.com/time_miryang">인스타그램에서 소식 보기</a>
+
+  <footer>
+    밀양시민 동아리 시간을 굽는 사람들<br>
+    밀양소통협력센터 4층 공유주방<br>
+    이 기록은 약속의 기록이며 법적 구속력이 없습니다.
+    <div class="contact">문의 <a href="mailto:bakers.miryang@gmail.com">bakers.miryang@gmail.com</a></div>
+    <div class="copy">© 2026 Claire Jang. All Rights Reserved.</div>
+  </footer>
+</div>
+
+<!-- 목록 자료는 data.js 에 있습니다. 관리자는 그 파일만 고치면 됩니다. -->
+<script src="data.js?v=2"></script>
+<script>
+const list = document.getElementById('list');
+const tree = document.getElementById('tree');
+const q    = document.getElementById('q');
+const hit  = document.getElementById('hit');
+const vTree = document.getElementById('vTree');
+const vList = document.getElementById('vList');
+const vhint = document.getElementById('vhint');
+let view = 'tree';
+
+/* ── 원종 이야기 (고칠 때는 이 따옴표 안만 고치면 됩니다) ── */
+const 원종이야기 = '<div class="story"><div class="stt">이름의 유래</div>'
+  + '<p>이름은 2023년 10월에 세상을 떠나신 장희은 교수의 어머니 성함에서 '
+  + '한 글자를 따 왔습니다. 뒤의 네 자리 2310이 그 해와 그 달입니다.</p>'
+  + '<p>아홉 해 동안 매주 쌀가루와 물을 먹여 이어 온 발효종입니다. '
+  + '2026년 9월 2일, 스물다섯 갈래로 나뉘어 밀양의 부엌으로 갔습니다. '
+  + '여러분의 르방은 모두 여기에서 시작되었습니다.</p></div>';
+
+function esc(t){
+  return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function ttl(name, town){
+  if (!name) return '아직 이름을 짓지 않았습니다';
+  return town ? town + ' ' + name : name;
+}
+
+/* ── 목록 카드 ───────────────────────────────── */
+function card(r){
+  const [code, name, town, gen, mother, date, word] = r;
+  return '<div class="item">'
+    + '<div class="top"><span class="code">' + esc(code) + '</span>'
+    + '<span class="gen">' + gen + '대</span></div>'
+    + '<div class="name' + (name ? '' : ' empty') + '">' + esc(ttl(name, town)) + '</div>'
+    + '<div class="meta">' + (mother ? '모체 ' + esc(mother) + ' · ' : '')
+    + '나눈 날짜 ' + esc(date) + '</div>'
+    + (word ? '<div class="word">' + esc(word) + '</div>' : '')
+    + (gen === 0 ? 원종이야기 : '')
+    + '</div>';
+}
+
+/* ── 계보 나무 ───────────────────────────────── */
+function build(){
+  const by = new Map(), kids = new Map();
+  르방목록.forEach(r => by.set(r[0], r));
+  르방목록.forEach(r => {
+    const m = r[4];
+    if (m && by.has(m) && m !== r[0]) {
+      if (!kids.has(m)) kids.set(m, []);
+      kids.get(m).push(r);
+    }
+  });
+  const roots = 르방목록.filter(r => !r[4] || !by.has(r[4]) || r[4] === r[0]);
+  return { by: by, kids: kids, roots: roots };
+}
+
+function keepSet(t, k){
+  if (!k) return null;
+  const keep = new Set();
+  르방목록.forEach(r => {
+    if ((r[0] + ' ' + r[1] + ' ' + r[2]).toLowerCase().includes(k)) {
+      let cur = r, guard = 0;
+      while (cur && guard++ < 50) {
+        keep.add(cur[0]);
+        cur = t.by.get(cur[4]);
+      }
+    }
+  });
+  return keep;
+}
+
+function branch(r, t, keep, isRoot){
+  const [code, name, town, gen, mother, date, word] = r;
+  const cs = (t.kids.get(code) || []).filter(c => !keep || keep.has(c[0]));
+  let h = '<div class="node' + (isRoot ? ' root' : '') + '">';
+  h += '<div class="row"><span class="dot' + (name ? '' : ' empty') + '"></span>'
+     + '<span class="nm' + (name ? '' : ' empty') + '">' + esc(ttl(name, town)) + '</span>'
+     + '<span class="gtag">' + gen + '대</span></div>';
+  h += '<div class="sub">' + esc(code) + ' · ' + esc(date)
+     + (cs.length ? ' · 나눔 ' + cs.length : '') + '</div>';
+  if (word) h += '<div class="say">' + esc(word) + '</div>';
+  if (gen === 0) h += 원종이야기;
+  if (cs.length) {
+    h += '<div class="kids">' + cs.map(c => branch(c, t, keep, false)).join('') + '</div>';
+  }
+  return h + '</div>';
+}
+
+/* ── 그리기 ──────────────────────────────────── */
+function draw(){
+  if (typeof 르방목록 === 'undefined') {
+    const msg = '<div class="none">목록을 불러오지 못했습니다.<br>'
+      + '키보드의 Ctrl 과 F5 를 함께 눌러 새로고침해 주세요.</div>';
+    tree.innerHTML = msg; list.innerHTML = msg; hit.textContent = '';
+    return;
+  }
+  const k = q.value.trim().toLowerCase();
+  const found = k
+    ? 르방목록.filter(r => (r[0] + ' ' + r[1] + ' ' + r[2]).toLowerCase().includes(k))
+    : 르방목록;
+
+  hit.textContent = k ? found.length + '개를 찾았습니다.' : '모두 ' + 르방목록.length + '개';
+
+  list.innerHTML = found.length
+    ? found.map(card).join('')
+    : '<div class="none">그 번호는 아직 목록에 없습니다.</div>';
+
+  const t = build();
+  const keep = keepSet(t, k);
+  const roots = t.roots.filter(r => !keep || keep.has(r[0]));
+  tree.innerHTML = roots.length
+    ? roots.map(r => branch(r, t, keep, true)).join('')
+    : '<div class="none">그 번호는 아직 목록에 없습니다.</div>';
+}
+
+function setView(v){
+  view = v;
+  const isTree = (v === 'tree');
+  tree.hidden = !isTree;
+  list.hidden = isTree;
+  vTree.className = 'vbtn' + (isTree ? ' on' : '');
+  vList.className = 'vbtn' + (isTree ? '' : ' on');
+  vhint.textContent = isTree
+    ? '가지를 따라가면 내 르방이 누구에게서 왔는지 보입니다.'
+    : '한 장씩 카드로 봅니다. 번호를 찾을 때 편합니다.';
+}
+vTree.addEventListener('click', function(){ setView('tree'); });
+vList.addEventListener('click', function(){ setView('list'); });
+q.addEventListener('input', draw);
+setView('tree');
+draw();
+</script>
+</body>
+</html>
